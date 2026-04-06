@@ -1,0 +1,79 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/mypage.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <title>🦁 마이페이지</title>
+  </head>
+
+  <body>
+    {% if user.is_authenticated %}
+    <div class="mypage-box">
+      <header>
+        <div class="header-left">
+          <img class="icon" src="{% static 'images/icon.svg' %}" />
+          <h2>마이페이지</h2>
+        </div>
+        <a href="{% url 'main' %}" class="out-btn"
+          ><img src="{% static 'images/out.svg' %}"
+        /></a>
+      </header>
+
+      <div class="profile-container">
+        <img src="{% static 'images/profile.svg' %}" />
+      </div>
+
+      <div class="mypage-content">
+        <section class="mypage-section">
+          <span>이름</span>
+          <div>{{ user.first_name }}</div>
+        </section>
+
+        <section class="mypage-section">
+          <span>닉네임</span>
+          <div>{{ user.username }}</div>
+        </section>
+
+        <section class="mypage-section">
+          <span>트랙</span>
+          <div>백엔드</div>
+        </section>
+
+        <section class="mypage-section">
+          <span>역할</span>
+          <div>아기사자</div>
+        </section>
+
+        <section class="mypage-section">
+          <span>이메일</span>
+          <div>
+            <p id="emailText">jungwoo@sookmyung.ac.kr</p>
+            <button onclick="copyEmail()">복사</button>
+          </div>
+        </section>
+      </div>
+    </div>
+    {% else %}
+    <div class="box">
+      <header>
+        <div class="header-left">
+          <img class="icon" src="{% static 'images/icon.svg' %}" />
+          <h2>로그인 실패</h2>
+        </div>
+      </header>
+      <div class="ment">
+        <h3>계정 로그인에 실패했습니다.</h3>
+        <p>아이디와 비밀번호를 다시 확인해 주세요.</p>
+      </div>
+      <a href="{% url 'login' %}" class="to_mypage">
+        <img src="{% static 'images/mypage.svg' %}" />
+        <p>로그인 화면으로 이동하기</p>
+      </a>
+    </div>
+    {% endif %}
+    <script src="{% static 'js/mypage.js' %}"></script>
+  </body>
+</html>

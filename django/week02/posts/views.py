@@ -46,3 +46,7 @@ class class_view(View):
 class class_view2(ListView):
     model = Post
     template_name = 'cbv_view.html'
+
+def home_view(request):
+    context = {"name" : "jungwoo"}
+    return render(request, "home.html", context)

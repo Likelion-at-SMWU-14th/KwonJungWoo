@@ -13,4 +13,5 @@ urlpatterns = [
     path('<int:id>/delete', post_delete_view, name='post-delete'),
     path('commentlist/<int:post_id>/', comment_list_view, name='comment-list'),
     path('commentform/<int:post_id>/', comment_model_form_view, name='comment-model-form'),
+    path('commentlist/<int:post_id>/<int:comment_id>/update/', comment_update_view, name='comment-update'),
 ]

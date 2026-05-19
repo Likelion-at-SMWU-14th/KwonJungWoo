@@ -9,6 +9,33 @@ from .forms import PostBasedForm, PostModelForm, CommentModelForm
 from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
+def comment_update_view(request, post_id, comment_id):
+    post = get_object_or_404(Post, id=post_id)
+    comment = get_object_or_404(Comment, id=comment_id)
+
+    if request.method == "GET":
+        form = CommentModelForm(instance=comment)
+        context = {
+            'form': form,
+            'post': post,
+            'comment': comment,
+        }
+        return render(request, 'comment_update.html', context)
+    
+    else:
+        form = CommentModelForm(request.POST, request.FILES, instance=comment)
+
+        if form.is_valid():
+            form.save()
+            return redirect('posts:comment-list', post_id=post.id)
+
+        context = {
+            'form': form,
+            'post': post,
+            'comment': comment,
+        }
+        return render(request, 'comment_update.html', context)
+
 def comment_model_form_view(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     if request.method == "GET":

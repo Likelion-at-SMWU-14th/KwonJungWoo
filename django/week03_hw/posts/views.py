@@ -4,11 +4,43 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.views import View
 from django.views.generic import ListView
-from .models import Post
-from .forms import PostBasedForm, PostModelForm
+from .models import Post, Comment
+from .forms import PostBasedForm, PostModelForm, CommentModelForm
 from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
+def comment_model_form_view(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if request.method == "GET":
+        form = CommentModelForm()
+        context = {'form':form, 'post':post,}
+        return render(request, 'comment_model_form.html', context)
+    else:
+        form = CommentModelForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.save()
+            return redirect('posts:comment-list', post_id = post.id)
+        
+        context = {
+            'form': form,
+            'post': post,
+        }
+        return render(request, 'comment_model_form.html', context)
+
+def comment_list_view(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    comments = Comment.objects.filter(post=post)
+
+    context = {
+        'post': post,
+        'comments': comments,
+    }
+
+    return render(request, 'comment_list.html', context)
+
 def post_delete_view(request, id):
     post = get_object_or_404(Post, id=id)
     if request.method == "POST":

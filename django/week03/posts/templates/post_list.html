@@ -1,16 +1,10 @@
-{% extends 'base.html' %} {% block title %}Form{% endblock %}
+{% extends 'base.html' %} {% block title %}Post List{% endblock %}
 
 {% block content %}
-<h1>Post 입력 화면 - Form 사용</h1>
-<form 
-    action="{% url 'posts:post-form' %}"
-    method="POST"
-    enctype="multipart/form-data"
->
-    {% csrf_token %}
-    <div>{{form.as_p}}</div>
+<h1>Post 목록 화면</h1>
+{% for post in posts %}
     <div>
-        <input type="submit">
+        <p>{{post.content}}</p>
     </div>
-</form>
+{% endfor %}
 {% endblock %}

@@ -5,9 +5,28 @@ from django.http import HttpResponse, JsonResponse
 from django.views import View
 from django.views.generic import ListView
 from .models import Post
-from .forms import PostBasedForm
+from .forms import PostBasedForm, PostModelForm
 
 # Create your views here.
+def post_detail_view(request, id):
+    post = Post.objects.get(id=id)
+    context = {'post' : post}
+    return render(request, 'post_detail.html', context)
+
+def post_model_form_view(request):
+    if request.method == "GET":
+        form = PostModelForm()
+        context = {'form':form}
+        return render(request, 'post_model_form.html', context)
+    else:
+        form = PostModelForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+        else:
+            print(form.errors)
+            return render(request, 'post_model_form.html', {'form':form})
+    return redirect('posts:post-list')
+
 def post_form_view(request):
     if request.method == "GET":
         form = PostBasedForm()

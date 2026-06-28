@@ -1,12 +1,9 @@
 from django.urls import path, include
-from rest_framework import routers
-
-from .views import UserModelViewSet
+from .views import user, get_single_user
 
 app_name = 'accounts'
 
-router = routers.DefaultRouter()
-router.register('', UserModelViewSet, basename='accounts')
 urlpatterns = [
-    path('', include(router.urls)),
+    path('', user, name='user'),
+    path('<int:id>/', get_single_user, name='get_single_user')
 ]

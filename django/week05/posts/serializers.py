@@ -11,6 +11,7 @@ class PostModelSerializer(ModelSerializer):
 
 class PostListSerializer(PostModelSerializer):
     pass
+    # 부모를 그대로 사용 / 몇 개만 골라서 커스텀 할 수도 있음
 
 
 class PostRetrieveSerializer(PostModelSerializer):

@@ -1,15 +1,13 @@
 from django.shortcuts import render
-from rest_framework import generics
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from django.contrib.auth import get_user_model
-from .serializers import UserCreateSerializer, UserLoginSerializer
+from .serializers import UserModelSerializer
 
 User = get_user_model()
 
 class UserModelViewSet(ModelViewSet):
     queryset = User.objects.all()
-
-    def get_serializer_class(self):
-        if self.action == 'create':
-            return UserCreateSerializer
+    serializer_class = UserModelSerializer

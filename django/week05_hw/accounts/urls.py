@@ -5,9 +5,9 @@ from .views import UserModelViewSet
 
 app_name = 'accounts'
 
-router = routers.DefaultRouter()
-router.register('', UserModelViewSet)
+router_accounts = routers.DefaultRouter()
+router_accounts.register('', UserModelViewSet)
                      
 urlpatterns = [
-    path('', include(router.urls)),
+    path('', include(router_accounts.urls)),
 ]

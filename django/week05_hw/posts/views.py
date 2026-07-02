@@ -7,4 +7,4 @@ from .serializers import PostModelSerializer
 class PostModelViewSet(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostModelSerializer
-    permission_class = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]

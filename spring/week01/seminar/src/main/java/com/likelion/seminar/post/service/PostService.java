@@ -36,4 +36,8 @@ public class PostService {
             targetPost.setWriter(postDTO.getWriter());
         }
     }
+
+    public void deletePost(int id) {
+        this.postDTOList.remove(id);
+    }
 }

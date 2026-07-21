@@ -38,4 +38,9 @@ public class PostController {
     public void updatePost(@PathVariable("id") int id, @RequestBody PostDTO postDTO) {
         postService.updatePost(id, postDTO);
     }
+
+    @DeleteMapping("/{id}")
+    public void deletePost(@PathVariable("id") int id) {
+        postService.deletePost(id);
+    }
 }

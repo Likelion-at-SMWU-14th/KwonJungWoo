@@ -33,4 +33,9 @@ public class PostController {
     public PostDTO getPostByRequestParam(@RequestParam("id") int id) {
         return postService.getPostById(id);
     }
+
+    @PutMapping("/{id}")
+    public void updatePost(@PathVariable("id") int id, @RequestBody PostDTO postDTO) {
+        postService.updatePost(id, postDTO);
+    }
 }

@@ -1,6 +1,7 @@
 package com.likelion.seminar.student.dto;
 
 import lombok.*;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -11,5 +12,5 @@ public class StudentDTO {
 
     private String name;
 
-    private String dateOfBirth;
+    private LocalDate dateOfBirth;
 }

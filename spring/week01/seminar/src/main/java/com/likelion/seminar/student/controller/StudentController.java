@@ -20,12 +20,12 @@ public class StudentController {
     public List<StudentDTO> getAllStudents() {}
 
     @GetMapping("/{id}")
-    public StudentDTO getStudentById(@PathVariable("id") int id) {}
+    public StudentDTO getStudentById(@PathVariable("id") String id) {}
 
     @PutMapping("/{id}")
-    public void updateStudent(@PathVariable("id") int id, @RequestBody StudentDTO studentDTO) {}
+    public void updateStudent(@PathVariable("id") String id, @RequestBody StudentDTO studentDTO) {}
 
     @DeleteMapping("/{id}")
-    public void deleteStudent(@PathVariable("id") int id) {}
+    public void deleteStudent(@PathVariable("id") String id) {}
 
 }

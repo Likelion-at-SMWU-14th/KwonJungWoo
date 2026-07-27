@@ -1,0 +1,41 @@
+package com.likelion.seminar.student.controller;
+
+import com.likelion.seminar.student.dto.StudentDTO;
+import com.likelion.seminar.student.service.StudentService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/students")
+public class StudentController {
+    private final StudentService studentService;
+
+    @PostMapping
+    public void createStudent(@RequestBody StudentDTO studentDTO) {
+        studentService.createStudent(studentDTO);
+    }
+
+    @GetMapping
+    public List<StudentDTO> getAllStudents() {
+        return studentService.getStudents();
+    }
+
+    @GetMapping("/{id}")
+    public StudentDTO getStudentById(@PathVariable("id") String id) {
+        return studentService.getStudentById(id);
+    }
+
+    @PutMapping("/{id}")
+    public void updateStudent(@PathVariable("id") String id, @RequestBody StudentDTO studentDTO) {
+        studentService.updateStudent(id, studentDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteStudent(@PathVariable("id") String id) {
+        studentService.deleteStudent(id);
+    }
+
+}

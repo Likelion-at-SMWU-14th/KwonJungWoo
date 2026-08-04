@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Lion {
 
-    private String name;
+    private String name = "babyLion";
 
     public String getName() {
         return name;
@@ -13,5 +13,10 @@ public class Lion {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Lion : " + name;
     }
 }

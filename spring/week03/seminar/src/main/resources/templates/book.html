@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>book</title>
+</head>
+<body>
+
+<h1>~ BOOKS ~</h1>
+<h2>지금까지 추가된 책들입니다 !!</h2>
+
+<table>
+  <tr>
+    <th>책 이름</th>
+    <th>책 저자</th>
+    <th>책 가격</th>
+  </tr>
+
+  <tr th:each="book: ${book}">
+    <td th:text="${book.title}"></td>
+    <td th:text="${book.author}"></td>
+    <td th:text="${book.price}"></td>
+  </tr>
+</table>
+
+<br/>
+<hr/>
+
+<h2>책을 추가해 보세요 ₍ᐢ｡•ᴗ•｡ᐢ₎</h2>
+<form action="/book" method="post">
+  제목 : <input type=":text" name="title"><br />
+  저자 : <input \\type=":text" step="any" name="author"><br />
+  가격 : <input \\type=":number" step="any" name="price"><br />
+  <button type="submit">Add Book</button>
+</form>
+
+</body>
+</html>

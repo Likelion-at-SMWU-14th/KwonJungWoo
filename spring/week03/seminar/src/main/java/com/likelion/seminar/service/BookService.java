@@ -11,8 +11,9 @@ public class BookService {
 
     private List<Book> books = new ArrayList<>();
 
-    public void addBooks(Book book) {
+    public Book addBooks(Book book) {
         books.add(book);
+        return book;
     }
 
     public List<Book> getBooks() {

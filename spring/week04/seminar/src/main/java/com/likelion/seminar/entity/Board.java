@@ -23,11 +23,13 @@ public class Board {
 
     @OneToMany(
             fetch = FetchType.LAZY,
-            mappedBy = "board"
+            mappedBy = "board",
+            cascade = CascadeType.REMOVE,
+            orphanRemoval = true
     )
     private List<Post> posts = new ArrayList<>();
 
-    private Board(String name) {
+    public Board(String name) {
         this.name = name;
     }
 

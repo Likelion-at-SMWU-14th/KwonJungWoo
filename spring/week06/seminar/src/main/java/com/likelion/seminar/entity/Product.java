@@ -25,10 +25,19 @@ public class Product extends BaseEntity{
     //상품 재고
     private Integer stock;
 
-    //양방향 매핑
+    //일대일, 양방향 매핑
     @OneToOne(mappedBy = "product")
     @ToString.Exclude
     private ProductDetail productDetail;
+
+    //다대일, 양방향 매핑
+    @ManyToOne
+    @JoinColumn(name = "provider_id")
+    private Provider provider;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     public Product(String name, Integer price) {
         this.name = name;

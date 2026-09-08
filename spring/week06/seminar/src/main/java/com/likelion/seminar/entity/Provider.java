@@ -22,12 +22,17 @@ public class Provider extends BaseEntity {
     private String name;
 
     //다대일, 양방향 매핑
-    @OneToMany(mappedBy = "provider")
+    @OneToMany(mappedBy = "provider", cascade = CascadeType.PERSIST)
     @ToString.Exclude
     private List<Product> products = new ArrayList<>();
 
     public Provider(String name) {
         this.name = name;
+    }
+
+    public void addProduct(Product product) {
+        this.products.add(product);
+        product.setProvider(this);
     }
 
 }

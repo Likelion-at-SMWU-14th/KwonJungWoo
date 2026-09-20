@@ -45,6 +45,12 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(UserNotFoundException::new);
 
+        if (userRepository.existsByEmailAndIdNot(
+                request.getEmail(), userId
+        )) {
+            throw new DuplicateEmailException();
+        }
+
         user.update(
                 request.getName(),
                 request.getEmail(),

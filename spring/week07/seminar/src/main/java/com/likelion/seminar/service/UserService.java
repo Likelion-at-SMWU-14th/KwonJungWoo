@@ -5,6 +5,7 @@ import com.likelion.seminar.dto.UserSaveRequest;
 import com.likelion.seminar.dto.UserUpdateRequest;
 import com.likelion.seminar.entity.User;
 import com.likelion.seminar.global.exception.DuplicateEmailException;
+import com.likelion.seminar.global.exception.UserNotFoundException;
 import com.likelion.seminar.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public UserResponse getUser(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow();
+                .orElseThrow(UserNotFoundException::new);
 
         return UserResponse.from(user);
     }
@@ -42,7 +43,7 @@ public class UserService {
     @Transactional
     public UserResponse updateUser(Long userId, UserUpdateRequest request) {
         User user = userRepository.findById(userId)
-                .orElseThrow();
+                .orElseThrow(UserNotFoundException::new);
 
         user.update(
                 request.getName(),

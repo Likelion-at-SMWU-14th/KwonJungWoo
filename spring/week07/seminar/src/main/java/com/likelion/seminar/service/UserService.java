@@ -1,8 +1,11 @@
 package com.likelion.seminar.service;
 
+import com.likelion.seminar.dto.UserResponse;
 import com.likelion.seminar.dto.UserSaveRequest;
+import com.likelion.seminar.dto.UserUpdateRequest;
 import com.likelion.seminar.entity.User;
 import com.likelion.seminar.global.exception.DuplicateEmailException;
+import com.likelion.seminar.global.exception.UserNotFoundException;
 import com.likelion.seminar.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,6 +30,35 @@ public class UserService {
                         .age(request.getAge())
                         .build()
         );
+    }
+
+    @Transactional(readOnly = true)
+    public UserResponse getUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(UserNotFoundException::new);
+
+        return UserResponse.from(user);
+    }
+
+    @Transactional
+    public UserResponse updateUser(Long userId, UserUpdateRequest request) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(UserNotFoundException::new);
+
+        if (userRepository.existsByEmailAndIdNot(
+                request.getEmail(), userId
+        )) {
+            throw new DuplicateEmailException();
+        }
+
+        user.update(
+                request.getName(),
+                request.getEmail(),
+                request.getPassword(),
+                request.getAge()
+        );
+
+        return UserResponse.from(user);
     }
 
 }

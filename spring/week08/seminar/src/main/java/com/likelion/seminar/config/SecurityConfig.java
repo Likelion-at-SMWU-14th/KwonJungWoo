@@ -11,32 +11,45 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    public SecurityFilterChain securityFilterChain(HttpSecurity http)
+            throws Exception {
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/",
                                 "/join",
+                                "/login",
                                 "/h2-console/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
 
-                .headers(headers -> headers
-                        .frameOptions(frame -> frame.sameOrigin())
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/", true)
+                        .permitAll()
+                )
+
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/")
+                        .permitAll()
                 )
 
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers("/h2-console/**")
+                )
+
+                .headers(headers -> headers
+                        .frameOptions(frame -> frame.sameOrigin())
                 );
 
-
-
         return http.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

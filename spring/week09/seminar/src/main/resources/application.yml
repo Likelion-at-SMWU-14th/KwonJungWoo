@@ -15,7 +15,7 @@ spring:
       ddl-auto: create
     show-sql: true
 
-  # 실제 서비스에서는 그대로 올리면 안됨 !!
-  jwt:
-    secret: c3ByaW5nLXNlY3VyaXR5LWp3dC1zZW1pbmFyLXNlY3JldC1rZXktMjAyNg==
-    expiration: 3600000
+# 실제 서비스에서는 그대로 올리면 안됨 !!
+jwt:
+  secret: c3ByaW5nLXNlY3VyaXR5LWp3dC1zZW1pbmFyLXNlY3JldC1rZXktMjAyNg==
+  expiration: 3600000

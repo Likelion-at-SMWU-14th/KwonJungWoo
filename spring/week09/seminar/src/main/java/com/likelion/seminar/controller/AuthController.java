@@ -1,6 +1,7 @@
 package com.likelion.seminar.controller;
 
 import com.likelion.seminar.dto.LoginRequest;
+import com.likelion.seminar.dto.RefreshRequest;
 import com.likelion.seminar.dto.SignupRequest;
 import com.likelion.seminar.dto.TokenResponse;
 import com.likelion.seminar.service.AuthService;
@@ -32,6 +33,16 @@ public class AuthController {
 
         return ResponseEntity.ok(
                 authService.login(request)
+        );
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<TokenResponse> refresh(
+            @RequestBody RefreshRequest request
+    ) {
+
+        return ResponseEntity.ok(
+                authService.refresh(request)
         );
     }
 }

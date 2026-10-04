@@ -14,18 +14,33 @@ import java.util.Date;
 public class JwtTokenProvider {
 
     private final SecretKey secretKey;
-    private final long expiration;
+    private final long accessExpiration;
+    private final long refreshExpiration;
 
     public JwtTokenProvider(
             @Value("${jwt.secret}") String secret,
-            @Value("${jwt.expiration}") long expiration
+            @Value("${jwt.expiration}") long accessExpiration,
+            @Value("${jwt.refresh-expiration}") long refreshExpiration
     ) {
         byte[] keyBytes = Decoders.BASE64.decode(secret);
         this.secretKey = Keys.hmacShaKeyFor(keyBytes);
-        this.expiration = expiration;
+        this.accessExpiration = accessExpiration;
+        this.refreshExpiration = refreshExpiration;
     }
 
-    public String createToken(String email) {
+    public String createAccessToken(String email) {
+        return createToken(email, "access", accessExpiration);
+    }
+
+    public String createRefreshToken(String email) {
+        return createToken(email, "refresh", refreshExpiration);
+    }
+
+    private String createToken(
+            String email,
+            String type,
+            long expiration
+    ) {
 
         Date now = new Date();
         Date expirationDate =
@@ -33,6 +48,7 @@ public class JwtTokenProvider {
 
         return Jwts.builder()
                 .subject(email)
+                .claim("type", type)
                 .issuedAt(now)
                 .expiration(expirationDate)
                 .signWith(secretKey)
@@ -50,6 +66,18 @@ public class JwtTokenProvider {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public boolean isAccessToken(String token) {
+        return "access".equals(
+                parseClaims(token).get("type", String.class)
+        );
+    }
+
+    public boolean isRefreshToken(String token) {
+        return "refresh".equals(
+                parseClaims(token).get("type", String.class)
+        );
     }
 
     private Claims parseClaims(String token) {

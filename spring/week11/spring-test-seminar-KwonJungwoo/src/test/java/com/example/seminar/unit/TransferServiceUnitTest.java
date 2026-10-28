@@ -191,18 +191,30 @@ class TransferServiceUnitTest {
 
         // Given
         // TODO 4-1: 발신인과 수취인 계좌를 생성하세요.
+        Account sender = new Account(1L, "John", new BigDecimal("1000"));
+        Account receiver = new Account(2L, "Jane", new BigDecimal("1000"));
 
 
         // TODO 4-2: 두 계좌를 정상적으로 조회할 수 있도록 Mock Repository의 동작을 설정하세요.
+        given(accountRepository.findById(1L)).willReturn(Optional.of(sender));
+        given(accountRepository.findById(2L)).willReturn(Optional.of(receiver));
 
         // When & Then
         // TODO 4-3: 잔액보다 큰 금액을 이체하도록 transferMoney()를 호출하고 예외를 검증하세요.
-
         // TODO 4-4: 예외 메시지가 올바른지 확인하세요.
+        assertThatThrownBy(() ->
+                transferService.transferMoney(1L, 2L, new BigDecimal("1100"))
+        )
+                .isInstanceOf(InvalidTransferException.class)
+                .hasMessageContaining("Insufficient balance");
+
 
         // TODO 4-5: 이체 실패 후 두 계좌의 잔액이 기존 값으로 유지되었는지 검증하세요.
+        assertThat(sender.getAmount())
+                .isEqualByComparingTo("1000");
+        assertThat(receiver.getAmount())
+                .isEqualByComparingTo("1000");
 
-        fail("TODO: 잔액 부족 테스트를 완성하세요.");
     }
 
 
@@ -228,10 +240,16 @@ class TransferServiceUnitTest {
         // TODO 5-1: -100원 이체를 시도하고 InvalidTransferException 발생 여부를 검증하세요.
 
         // TODO 5-2: 예외 메시지에 "positive"가 포함되어 있는지 확인하세요.
+        assertThatThrownBy(() ->
+                transferService.transferMoney(1L, 2L, new BigDecimal("-100"))
+        )
+                .isInstanceOf(InvalidTransferException.class)
+                .hasMessageContaining("positive");
+
 
         // TODO 5-3: verifyNoInteractions()를 사용하여
         //  AccountRepository의 메서드가 호출되지 않았는지 검증하세요.
+        verifyNoInteractions(accountRepository);
 
-        fail("TODO: 음수 금액 테스트를 완성하세요.");
     }
 }
